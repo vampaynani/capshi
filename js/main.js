@@ -209,7 +209,6 @@ $(document).on("ready",
 		$(this).removeClass("rojo");
 	});
 	$('#submit-form').submit(function() {
-		var $form		= $(this);
 		var name 		= $("#name-text").val();
 		var email 		= $("#mail-text").val();
 		var phone		= $("#phone-text").val();
@@ -243,23 +242,17 @@ $(document).on("ready",
 		}else{
 			$("#dat-obli").css({display: "none"});
 		}
-		var base64email = "Y2FzcGguaW1hQGdtYWlsLmNvbQ==";
-		var baseURL = "//formspree.io/";
 		$.ajax({
-			url: baseURL + atob(base64email),
+			url: "/api/email",
 			method: "POST",
-			data: {nombre: name, email: email, telefono: phone, terapia: therapy, _subject: "CAPSHI.COM :: " + name + " desea agendar una cita" },
+			data: {nombre: name, email: email, telefono: phone, terapia: therapy},
 			dataType: "json",
 			success: function(){
-				var $p = $("<p id='dat-success'>Tu correo ha sido enviado y tu cita será agendada a la brevedad ¡Buen día!</p>");
-				$form.prepend($p);
-				$p.delay(3000).fadeOut(400, function(){
-					$("#name-text").val('');
-					$("#mail-text").val('');
-					$("#phone-text").val('');
-					$("#lista-terapias").val('');
-					$p.remove();
-				});			
+				alert("¡Tu correo ha sido enviado exitosamente! Nos pondremos en contacto contigo a la brevedad. ¡Buen día!");
+				$("#name-text").val('');
+				$("#mail-text").val('');
+				$("#phone-text").val('');
+				$("#lista-terapias").val('');
 			},
 			error: function(){
 				alert("No fue posible enviar tu correo, inténtalo nuevamente.");
