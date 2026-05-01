@@ -1,33 +1,26 @@
 export default async function handler(req, res) {
-  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Add a small delay to simulate email processing
-  await new Promise(resolve => setTimeout(async () => {
-    const { name, email, message } = req.body;
+  const { nombre, email, telefono, terapia } = req.body;
 
-    // Validate required fields
-    if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Missing required fields: name, email, message' });
-    }
+  if (!nombre || !email || !telefono || !terapia) {
+    return res.status(400).json({ error: 'Missing required fields: nombre, email, telefono, terapia' });
+  }
 
-    // Fake email processing - log to console for debugging
-    console.log('Fake email sent:', {
-      from: email,
-      subject: `Contacto desde Capshi - ${name}`,
-      name,
-      email,
-      message
-    });
+  console.log('Fake email sent:', {
+    from: email,
+    subject: `Contacto desde Capshi - ${nombre}`,
+    nombre,
+    email,
+    telefono,
+    terapia
+  });
 
-    res.status(200).json({
-      success: true,
-      message: 'Email sent successfully',
-      fake: true
-    });
-
-    resolve();
-  }, 500));
+  res.status(200).json({
+    success: true,
+    message: 'Email sent successfully',
+    fake: true
+  });
 }
